@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"time"
 )
 
 func main() {
@@ -16,8 +17,15 @@ func main() {
 		w.Write([]byte(`{ "message": "Healthy :)" }`))
 	})
 
-	err := http.ListenAndServe(":8090", mux)
-	if err != nil {
+	srv := http.Server{
+		Addr:         ":8090",
+		Handler:      mux,
+		ReadTimeout:  time.Second * 10,
+		WriteTimeout: time.Second * 30,
+		IdleTimeout:  time.Second * 60,
+	}
+
+	if err := srv.ListenAndServe(); err != nil {
 		log.Fatalf("Server failed: %v", err)
 	}
 }
