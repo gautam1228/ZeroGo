@@ -14,10 +14,7 @@ type Config struct {
 
 // This function panics, instead of returning an error, since we start it with the prefix of Must
 func MustLoad() Config {
-	envErr := godotenv.Load()
-	if envErr != nil {
-		log.Fatal("Error loading the .env file.")
-	}
+	godotenv.Load()
 
 	env := os.Getenv("ENV")
 	if env == "" {
