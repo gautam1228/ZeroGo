@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/gautam1228/ZeroGo/internal/config"
+	"github.com/gautam1228/ZeroGo/internal/handlers"
 )
 
 func main() {
@@ -14,12 +15,7 @@ func main() {
 	log.Printf("Starting server ...")
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-
-		w.Write([]byte(`{ "message": "Healthy :)" }`))
-	})
+	mux.HandleFunc("GET /healthz", handlers.Health)
 
 	srv := http.Server{
 		Addr:         ":" + cfg.Port,
