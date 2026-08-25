@@ -18,6 +18,7 @@ func main() {
 		log.Fatalf("main.db.connect: %v", err)
 	}
 
+	log.Printf("database connected ...")
 	log.Printf("Starting server ...")
 	mux := http.NewServeMux()
 
