@@ -6,12 +6,18 @@ import (
 	"time"
 
 	"github.com/gautam1228/ZeroGo/internal/config"
+	"github.com/gautam1228/ZeroGo/internal/db"
 	"github.com/gautam1228/ZeroGo/internal/handlers"
 )
 
 func main() {
 
 	cfg := config.MustLoad()
+	_, err := db.Connect(cfg.DatabaseUrl)
+	if err != nil {
+		log.Fatalf("main.db.connect: %v", err)
+	}
+
 	log.Printf("Starting server ...")
 	mux := http.NewServeMux()
 
