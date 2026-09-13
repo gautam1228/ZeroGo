@@ -22,9 +22,12 @@ func main() {
 	log.Printf("Starting server ...")
 	mux := http.NewServeMux()
 
+	// Constructor patter used for dependency injection
+	lh := handlers.NewListingHandler(db)
+
 	mux.HandleFunc("GET /healthz", handlers.Health)
-	mux.HandleFunc("GET /listings", handlers.List(db))
-	mux.HandleFunc("DELETE /listings/{id}", handlers.DeleteListing(db))
+	mux.HandleFunc("GET /listings", lh.List)
+	mux.HandleFunc("DELETE /listings/{id}", lh.DeleteListing)
 
 	srv := http.Server{
 		Addr:         ":" + cfg.Port,
